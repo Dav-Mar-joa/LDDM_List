@@ -125,7 +125,7 @@ app.delete('/delete-task/:id', async (req, res) => {
 app.delete('/delete-course/:id', async (req, res) => {
     const courseId = req.params.id;
     try {
-        const collection = db.collection('courses');
+        const collection = db.collection('Courses');
         await collection.deleteOne({ _id: new ObjectId(courseId) });
         res.status(200).send('Course supprimée avec succès');
     } catch (err) {
