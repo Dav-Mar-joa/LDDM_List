@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tâches du jour</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #333;
+            display: flex;
+        }
+        .container {
+            
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .form-container {
+            flex: 0.5;
+            margin-right: 20px;
+        }
+        .tasks-container {
+            flex: 2;
+            max-width: 70%;
+        }
+        .form {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+        .date-time {
+            margin-bottom: 15px;
+        }
+        .date-time #dateJour,
+        .date-time #heure {
+            font-size: 18px;
+            color: #333;
+            padding: 5px;
+            display: inline-block;
+        }
+        form {
+            max-width: 100%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .formDate {
+            max-width: 100%;
+            padding-top: 10px;
+            margin-bottom: 2%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 90%;
+            padding: 8px;
+            margin: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        textarea {
+            max-width: 100%;
+            overflow: auto;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .titre {
+            font-family: fantasy;
+            font-size: 3rem;
+            color: aqua;
+            text-align: center;
+        }
+        .task {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+        .task h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <p class="titre">Tasks To Do</p>
+            <div class="formDate">
+                <div class="date-time">
+                    <span id="dateJour">Titre du jour</span>
+                    <span id="heure">Heure</span>
+                </div>
+            </div>
+            <form action="/" method="post">
+                <label for="task">Tâches :</label>
+                <input type="text" id="task" name="task" required>
+                
+                <label for="date">Date et Heure :</label>
+                <input type="datetime-local" id="date" name="date" required>
+                
+                <label for="description">Descriptions :</label>
+                <textarea id="description" name="description" rows="5" required></textarea>
+
+                <label for="priority">Priority:</label>
+                <select type="text" name="priority" id="priority">
+                    <option value="">--Please choose an option--</option>
+                    <option value="haute">Haute</option>
+                    <option value="moyenne">Moyenne</option>
+                    <option value="faible">Faible</option>
+                </select>
+                
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+
+        <div class="tasks-container">
+            <!-- Exemple d'une tâche -->
+            <div class="task" data-task-id="1">
+                <h3>Tâche: Example Task</h3>
+                <p>Date: 2023-09-17</p>
+                <p>Description: Description de l'exemple de tâche</p>
+                <p>Priority: Haute</p>
+                <button type="button" onclick="deleteTask(this)">Supprimer</button>
+
+              </div>  
+                
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Tâches du jour
+    style.
+      body {
+          font-family: Arial, sans-serif;
+          margin: 20px;
+          padding: 20px;
+          background-color: #333;
+          display: flex;
+          justify-content: center; /* Centre le contenu de la page */
+      }
+      .container {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          max-width: 1600px;
+          gap: 40px; /* Augmente l'espace entre les colonnes */
+      }
+      .form-container {
+          flex: 1;
+          width: 25%; /* Ajuste la largeur de la colonne du formulaire */
+      }
+      .tasks-container {
+          flex: 1;
+          width: 40%; /* Ajuste la largeur de la colonne des tâches */
+      }
+      .purchase-container {
+          flex: 1;
+          width: 25%; /* Ajuste la largeur de la colonne des achats */
+      }
+      .form {
+          border: 1px solid #ccc;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #f9f9f9;
+          margin-bottom: 20px;
+      }
+      .date-time {
+          margin-bottom: 15px;
+      }
+      .date-time #dateJour,
+      .date-time #heure {
+          font-size: 18px;
+          color: #333;
+          padding: 5px;
+          display: inline-block;
+      }
+      form {
+          max-width: 100%;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          background-color: #f9f9f9;
+      }
+      .formDate {
+          max-width: 100%;
+          padding-top: 10px;
+          margin-bottom: 2%;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          background-color: #f9f9f9;
+          text-align: center;
+      }
+      label {
+          display: block;
+          margin-bottom: 10px;
+          font-weight: bold;
+      }
+      input, textarea {
+          width: 90%;
+          padding: 8px;
+          margin: 8px;
+          margin-bottom: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+      }
+      textarea {
+          max-width: 100%;
+          overflow: auto;
+      }
+      button {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+      .button-submit {
+          background-color: #007bff;
+          color: white;
+      }
+      .button-submit:hover {
+          background-color: #0056b3;
+      }
+      .button-delete {
+          background-color: #dc3545;
+          color: white;
+      }
+      .button-delete:hover {
+          background-color: #c82333;
+      }
+      .titre {
+          font-family: fantasy;
+          font-size: 3rem;
+          color: aqua;
+          text-align: center;
+      }
+      .task {
+          border: 1px solid #ccc;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #fff;
+          margin-bottom: 10px;
+          white-space: normal; /* Permet le retour à la ligne */
+          word-wrap: break-word; /* Coupe le mot si trop long */
+      }
+      .task h3 {
+          margin-top: 0;
+      }
+      .task-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      .faible {
+          background-color: green;
+      }
+      .haute {
+          background-color: red;
+      }
+      .moyenne {
+          background-color: orange;
+      }
+      /* Style pour la colonne Achats */
+      .purchase-item {
+          border: 1px solid #ccc;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #fff;
+          margin-bottom: 10px;
+      }
+      .purchase-item h3 {
+          margin-top: 0;
+      }
+  body
+    .container
+      .form-container
+        p.titre Tasks To Do
+        .formDate
+          .date-time
+            #dateJour Titre du jour
+            #heure Heure
+
+        form(action="/" method="post")
+          label(for="task") Tâches :
+          input(type="text" id="task" name="task" required)
+          
+          label(for="date") Date et Heure :
+          input(type="datetime-local" id="date" name="date" required)
+          
+          label(for="description") Descriptions :
+          textarea(id="description" name="description" rows="5")
+          
+          label(for="priority") Priority:
+          select(name="priority" id="priority")
+              option(value="") Priorité : 
+              option(value="haute") Haute
+              option(value="moyenne") Moyenne
+              option(value="faible") Faible
+          
+          button(type="submit" class="button-submit") Envoyer
+
+      .tasks-container
+        each task in tasks
+          .task(data-task-id=task._id)(class=task.priority)
+                .task-header
+                  h3 Tache: #{task.name}
+                  p #{task.date.toString().slice(0, 10)}
+                p Description: #{task.description}
+                button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
+
+      .purchase-container
+        p.titre We need
+          .task-header
+            form(action="/" method="post")
+              label(for="buy") 
+              input(type="text" id="buy" name="buy" required)
+            button(type="submit" class="button-submit") Envoyer  
+        each task in tasks
+          .task(data-task-id=task._id)(class=task.priority)
+                .task-header
+                  p Description: #{task.description}
+                  button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
+      .purchase-container
+        p.titre We need
+          form(action="/courses" method="post")
+            label(for="buy") 
+            input(type="text" id="buy" name="buy" required)
+            button(type="submit" class="button-submit") Envoyer  
+        
+        each course in courses
+          .purchase-item(data-course-id=course._id)
+            h3 #{course.name}
+            button(type="button" onclick="deleteCourse(this)" class="button-delete") Supprimer                  
+                
+
+    script(src="/js/script.js")
