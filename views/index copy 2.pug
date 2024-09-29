@@ -1,3 +1,4 @@
+doctype html
 html(lang="en")
   head
     meta(charset="UTF-8")
@@ -38,35 +39,6 @@ html(lang="en")
           background-color: #f9f9f9;
           margin-bottom: 20px;
       }
-      /* Styles pour petits écrans */
-      @media (max-width: 768px) {
-        .container {
-          flex-direction: column; /* Colonne sur petits écrans */
-        }
-        .form-container, .tasks-container, .purchase-container {
-          width: 100%; /* Occupe toute la largeur sur mobile */
-        }
-        .button-submit-taches, .button-delete {
-          width: 100%; /* Boutons s'étendent sur toute la largeur */
-        }
-      }
-      /* Styles pour grands écrans */
-      @media (min-width: 769px) {
-        .container {
-          flex-direction: row;
-        }
-        .form-container {
-          width: 25%;
-        }
-        .tasks-container {
-          width: 40%;
-        }
-        .purchase-container {
-          width: 25%;
-        }
-      }
-
-      /* Autres styles existants */
       .date-time {
           margin-bottom: 15px;
       }
@@ -116,6 +88,7 @@ html(lang="en")
           border-radius: 5px;
           cursor: pointer;
       }
+      
       .button-submit-taches {
           background-color: #007bff;
           color: white;
@@ -224,11 +197,18 @@ html(lang="en")
           form(action="/courses" method="post")
             label(for="buy") Courses : 
             input(type="text" id="buy" name="buy" required)
+            //- label(for="priority2") Priority:
+            //- select(name="priority2" id="priority2")
+            //-     option(value="") Priorité : 
+            //-     option(value="haute") Haute
+            //-     option(value="moyenne") Moyenne
+            //-     option(value="faible") Faible
             button(type="submit" class="button-submit") Ajouter  
         
         each course in courses
           .purchase-item(data-course-id=course._id)
             h3 #{course.name} 
             button(type="button" onclick="deleteCourse(this)" class="button-delete") Supprimer                  
+                
 
     script(src="/js/script.js")
