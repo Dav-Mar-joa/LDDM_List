@@ -220,9 +220,9 @@ html(lang="en")
         each task in tasks
           .task(data-task-id=task._id)(class=task.priority)
                 .task-header
-                  h3 Tache: #{task.name}
+                  h3 #{task.name}
                   p #{task.date.toString().slice(0, 10)}
-                p Description: #{task.description}
+                p #{task.description}
                 button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
 
       .purchase-container
