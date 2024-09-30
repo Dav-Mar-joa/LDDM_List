@@ -221,7 +221,8 @@ html(lang="en")
           .task(data-task-id=task._id)(class=task.priority)
                 .task-header
                   h3 #{task.name}
-                  p #{task.date.toString().slice(0, 10)}
+                //-   p #{task.date.toString().slice(0, 10)}
+                p #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
                 p #{task.description}
                 button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
 
