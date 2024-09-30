@@ -205,8 +205,6 @@ html(lang="en")
       .date{
         background-color: #333;
         color: aqua;
-        margin-left: 140px;
-        margin-right: 140px;
         padding:10px;
         padding-left :10px;
         padding-right :10px;
@@ -214,6 +212,8 @@ html(lang="en")
         text-align:center;
       }
       .taskDescritption{
+        padding:0;
+        margin:0;
         text-align:center;
       }
   body
@@ -257,10 +257,10 @@ html(lang="en")
       .tasks-container
         each task in tasks
           .task(data-task-id=task._id)(class=task.priority)
-                p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
                 .task-header
-                  h3.nomTache #{task.qui}
-                  h3 #{task.name} 
+                
+                  h3.nomTache  #{task.name} (#{task.qui})
+                  p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))} 
                   
                 //-   p #{task.date.toString().slice(0, 10)}
                 
