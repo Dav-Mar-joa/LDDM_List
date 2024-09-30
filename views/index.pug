@@ -187,6 +187,11 @@ html(lang="en")
       .priority{
         margin-bottom : 5%;
       }
+      .priority-qui-container {
+        display: flex; /* Utilise Flexbox pour aligner horizontalement */
+        gap: 20px; /* Espacement entre les éléments */
+        align-items: center; /* Centre verticalement les éléments */    
+      }
   body
     .container
       .form-container
@@ -206,12 +211,20 @@ html(lang="en")
           label(for="description") Descriptions :
           textarea(id="description" name="description" rows="1")
           
-          label(for="priority" class="priority") Priorité :
-          select(name="priority" id="priority")
-              option(value="") Priorité : 
-              option(value="haute") Haute
-              option(value="moyenne") Moyenne
-              option(value="faible") Faible
+          .priority-qui-container
+            label(for="priority" class="priority") Priorité :
+            select(name="priority" id="priority")
+                option(value="") Priorité :
+                option(value="haute") Haute
+                option(value="moyenne") Moyenne
+                option(value="faible") Faible
+
+            label(for="qui" class="qui") Qui ? 
+            select(name="qui" id="qui")
+                option(value="") Qui :
+                option(value="haute") Lola
+                option(value="moyenne") David
+                option(value="faible") Les 2    
           
           button(type="submit" class="button-submit-taches") Ajouter
           
@@ -230,7 +243,7 @@ html(lang="en")
       .purchase-container
         p.titre We need
           form(action="/courses" method="post")
-            label(for="buy") Courses : 
+            label(for="buy") 
             input(type="text" id="buy" name="buy" required)
             button(type="submit" class="button-submit") Ajouter  
         
