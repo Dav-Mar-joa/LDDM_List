@@ -163,6 +163,7 @@ html(lang="en")
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin:auto;
       }
       .faible {
           background-color: green;
@@ -195,6 +196,7 @@ html(lang="en")
         font-size: 18px;  
       }
       .nomTache{
+        margin:auto;
         background-color: #f9f9f9;
         padding:5px;
         padding-left :10px;
@@ -258,12 +260,8 @@ html(lang="en")
         each task in tasks
           .task(data-task-id=task._id)(class=task.priority)
                 .task-header
-                
+                p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))} 
                   h3.nomTache  #{task.name} (#{task.qui})
-                  p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))} 
-                  
-                //-   p #{task.date.toString().slice(0, 10)}
-                
                 p.taskDescritption #{task.description}
                 button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
 
