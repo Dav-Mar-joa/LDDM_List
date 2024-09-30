@@ -1,0 +1,22 @@
+{
+    "name": "ToDoList",
+    "short_name": "ToDoList",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#333333",
+    "theme_color": "#007bff",
+    "description": "Une brève description de ton application",
+    "icons": [
+      {
+        "src": "/assets/icons/icon192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/assets/icons/iicon512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }
+  

@@ -3,6 +3,7 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title Tâches du jour
+    link(rel="manifest" href="/manifest.json")
     style.
       body {
           font-family: Arial, sans-serif;
@@ -232,3 +233,13 @@ html(lang="en")
             button(type="button" onclick="deleteCourse(this)" class="button-delete") Supprimer                  
 
     script(src="/js/script.js")
+    script.
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
