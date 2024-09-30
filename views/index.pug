@@ -197,6 +197,7 @@ html(lang="en")
       }
       .nomTache{
         margin:auto;
+        text-align:center;
         background-color: #f9f9f9;
         padding:5px;
         padding-left :10px;
@@ -261,8 +262,10 @@ html(lang="en")
         each task in tasks
           .task(data-task-id=task._id)(class=task.priority)
                 .task-header
-                p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))} 
-                  h3.nomTache  (#{task.qui}) : #{task.name} 
+                //- p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
+                p.date #{new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(task.date))}
+ 
+                  h3.nomTache #{task.qui} : #{task.name} 
                 p.taskDescritption #{task.description}
                 button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
 
