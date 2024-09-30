@@ -190,7 +190,7 @@ html(lang="en")
       }
       .priority-qui-container {
         display: flex; /* Utilise Flexbox pour aligner horizontalement */
-        gap: 50px; /* Espacement entre les éléments */
+        gap: 20px; /* Espacement entre les éléments */
         align-items: center; /* Centre verticalement les éléments */  
         font-size: 18px;  
       }
@@ -205,10 +205,16 @@ html(lang="en")
       .date{
         background-color: #333;
         color: aqua;
+        margin-left: 140px;
+        margin-right: 140px;
         padding:10px;
         padding-left :10px;
         padding-right :10px;
         border-radius : 10px;
+        text-align:center;
+      }
+      .taskDescritption{
+        text-align:center;
       }
   body
     .container
@@ -251,13 +257,14 @@ html(lang="en")
       .tasks-container
         each task in tasks
           .task(data-task-id=task._id)(class=task.priority)
+                p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
                 .task-header
                   h3.nomTache #{task.qui}
                   h3 #{task.name} 
-                  p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
+                  
                 //-   p #{task.date.toString().slice(0, 10)}
                 
-                p #{task.description}
+                p.taskDescritption #{task.description}
                 button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
 
       .purchase-container
