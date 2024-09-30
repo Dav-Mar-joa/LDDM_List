@@ -45,7 +45,8 @@ app.post('/', async (req, res) => {
         name: req.body.task,
         date: new Date(req.body.date), // Convertir la chaîne en un objet Date
         description: req.body.description,
-        priority: req.body.priority
+        priority: req.body.priority,
+        qui: req.body.qui
     };
 
     try {

@@ -186,11 +186,29 @@ html(lang="en")
       }
       .priority{
         margin-bottom : 5%;
+        border-radius:10px;
       }
       .priority-qui-container {
         display: flex; /* Utilise Flexbox pour aligner horizontalement */
-        gap: 20px; /* Espacement entre les éléments */
-        align-items: center; /* Centre verticalement les éléments */    
+        gap: 50px; /* Espacement entre les éléments */
+        align-items: center; /* Centre verticalement les éléments */  
+        font-size: 18px;  
+      }
+      .nomTache{
+        background-color: #f9f9f9;
+        padding:5px;
+        padding-left :10px;
+        padding-right :10px;
+        border-radius : 10px;
+        font-size: 18px;
+      }
+      .date{
+        background-color: #333;
+        color: aqua;
+        padding:10px;
+        padding-left :10px;
+        padding-right :10px;
+        border-radius : 10px;
       }
   body
     .container
@@ -234,8 +252,9 @@ html(lang="en")
         each task in tasks
           .task(data-task-id=task._id)(class=task.priority)
                 .task-header
-                  h3 #{task.name}
-                  p #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
+                  h3.nomTache #{task.qui}
+                  h3 #{task.name} 
+                  p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
                 //-   p #{task.date.toString().slice(0, 10)}
                 
                 p #{task.description}
