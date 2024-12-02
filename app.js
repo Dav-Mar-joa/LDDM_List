@@ -41,9 +41,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Route pour soumettre des tâches
 app.post('/', async (req, res) => {
+    const dateJ = req.body.date ? new Date(req.body.date) : new Date()
     const task = {
         name: req.body.task,
-        date: new Date(req.body.date), // Convertir la chaîne en un objet Date
+        date: dateJ,
         description: req.body.description,
         priority: req.body.priority,
         qui: req.body.qui
@@ -92,7 +93,7 @@ app.get('/', async (req, res) => {
 
         const collection = db.collection(process.env.MONGODB_COLLECTION);
         const collectionCourses = db.collection('Courses');
-        const tasks = await collection.find({}).sort({ date: 1 }).toArray();
+        const tasks = await collection.find({}).sort({ date: -1 }).toArray();
         const courses = await collectionCourses.find({}).toArray();
         tasks.forEach(task => {
           console.log('Original Date:', task.date.toString().slice(0, 10));
