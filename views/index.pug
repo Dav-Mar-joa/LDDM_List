@@ -70,6 +70,7 @@ html(lang="en")
       /* Autres styles existants */
       .date-time {
           margin-bottom: 15px;
+          
       }
       .date-time #dateJour,
       .date-time #heure {
@@ -77,22 +78,25 @@ html(lang="en")
           color: #333;
           padding: 5px;
           display: inline-block;
+          
       }
       form {
           max-width: 100%;
           padding: 20px;
-          border: 1px solid #ccc;
+          border: 3px solid black;
           border-radius: 10px;
           background-color: #f9f9f9;
+          box-shadow: 1px 1px 1px black;
       }
       .formDate {
           max-width: 100%;
-          padding-top: 10px;
-          margin-bottom: 2%;
-          border: 1px solid #ccc;
+          padding-top: 15px;
+          margin-bottom: 4%;
+          border: 3px solid black;
           border-radius: 10px;
           background-color: #f9f9f9;
           text-align: center;
+          box-shadow: 1px 1px 1px black;
       }
       label {
           display: block;
@@ -123,6 +127,8 @@ html(lang="en")
           margin-left: auto; 
           display: block;  
           margin-top: 20px;
+          box-shadow: 1px 1px 1px black;
+          border : 2px solid black;
       }
       .button-submit-taches:hover {
           background-color: #0056b3;
@@ -130,6 +136,8 @@ html(lang="en")
       .button-submit {
           background-color: #007bff;
           color: white;
+          box-shadow: 1px 1px 1px black;
+          border : 2px solid black;
       }
       .button-submit:hover {
           background-color: #0056b3;
@@ -137,6 +145,8 @@ html(lang="en")
       .button-delete {
           background-color: #dc3545;
           color: white;
+          box-shadow: 1px 1px 1px black;
+          border : 2px solid black;
       }
       .button-delete:hover {
           background-color: #c82333;
@@ -148,13 +158,14 @@ html(lang="en")
           text-align: center;
       }
       .task {
-          border: 1px solid #ccc;
+          border: 4px solid #ccc;
           padding: 10px;
-          border-radius: 5px;
+          border-radius: 15px;
           background-color: #fff;
-          margin-bottom: 10px;
+          margin-bottom: 15px;
           white-space: normal; /* Permet le retour à la ligne */
           word-wrap: break-word; /* Coupe le mot si trop long */
+          box-shadow: 3px 3px 3px black;
       }
       .task h3 {
           margin-top: 0;
@@ -176,11 +187,15 @@ html(lang="en")
       }
       /* Style pour la colonne Achats */
       .purchase-item {
-          border: 1px solid #ccc;
+          border: 3px solid black;
           padding: 10px;
-          border-radius: 5px;
+          border-radius: 20px;
           background-color: #fff;
           margin-bottom: 10px;
+          box-shadow: 3px 3px 3px black;
+          white-space: normal; /* Permet le retour à la ligne */
+          word-wrap: break-word; /* Coupe le mot si trop long */
+
       }
       .purchase-item h3 {
           margin-top: 0;
@@ -254,7 +269,6 @@ html(lang="en")
                 option(value="Lola") Lola
                 option(value="David") David
                 option(value="Les 2") Les 2
-    
           
           button(type="submit" class="button-submit-taches") Ajouter
           
@@ -264,7 +278,8 @@ html(lang="en")
           .task(data-task-id=task._id)(class=task.priority)
                 .task-header
                 //- p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
-                p.date #{new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(task.date))}
+                p.date #{new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(task.date))}
+
  
                   h3.nomTache #{task.qui} : #{task.name} 
                 p.taskDescritption #{task.description}
