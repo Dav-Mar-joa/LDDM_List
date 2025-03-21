@@ -20,13 +20,13 @@ self.addEventListener('install', function(event) {
     );
   });
 
-  // Ajouter un événement pour envoyer un message à la page principale
+// Mise à jour du service worker lors de l'ajout d'une tâche
 self.addEventListener('message', function(event) {
   if (event.data.action === 'updateBadge') {
-    // Ajoutez ici la logique pour calculer le nombre de tâches non lues ou autres données
-    const numberOfTasks = 5; // Exemple, remplacez par votre logique pour obtenir ce nombre
+    // Logique pour obtenir le nombre de tâches non lues
+    const numberOfTasks = 5; // Exemple : récupère ce nombre via ta logique
 
-    // Envoyer un message au client pour mettre à jour le badge
+    // Envoie du message au client pour mettre à jour le badge
     event.ports[0].postMessage({ action: 'setBadge', count: numberOfTasks });
   }
 });
@@ -35,7 +35,7 @@ self.addEventListener('push', function(event) {
   var options = {
     body: event.data ? event.data.text() : 'Notification par défaut',
     icon: '/assets/icons/icon192.png',
-    badge: '/assets/icons/icon192.png', // Le badge qui apparaîtra sur l'icône
+    badge: '/assets/icons/badge.png',  // Fichier badge dynamique
     vibrate: [200, 100, 200],
     tag: 'task-notification',
     actions: [

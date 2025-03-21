@@ -1,31 +1,44 @@
-// Fonction pour afficher l'heure et la date
-function affichageHeure() {
+
+
+function affichageHeure(){
     let jours = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
     let mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-    let date = new Date();
-    let hour = date.getHours();
-    let min = date.getMinutes();
-    let sec = date.getSeconds();
-    let day = date.getDay();
-    let numberDay = date.getDate();
-    let month = date.getMonth();
+    let date = new Date()
+    let hour = date.getHours()
+    let min = date.getMinutes()
+    let sec = date.getSeconds()
+    let day = date.getDay()
+    let numberDay = date.getDate()
+    let month = date.getMonth()
+
+    console.log("date "+date)
+    console.log("heure "+hour)
+    console.log("min "+min)
+    console.log("sec "+sec)
+    console.log("day "+jours[day])
+    console.log("month "+month)
+    console.log("number Day "+numberDay)
+
 
     hour = hour < 10 ? '0' + hour : hour;
-    min = min < 10 ? '0' + min : min;
-    sec = sec < 10 ? '0' + sec : sec;
+    min = min < 10 ? '0'+min : min;
+    sec = sec < 10 ? '0' + sec : sec
 
-    const clock = `${hour}:${min}:${sec}`;
-    const dateDay = `${jours[day]} ${numberDay} ${mois[month]}`;
+    const clock = hour + ":" +min + ":" + sec
+    const dateDay = jours[day] + " "+ numberDay + " " + mois[month]
 
-    // Afficher l'heure et la date
-    document.getElementById("heure").innerText = clock;
-    document.getElementById("dateJour").innerText = dateDay;
+    console.log("clock"+ clock)
+    const heure = document.getElementById("heure")
+    heure.innerText = clock
+
+    const dateJour = document.getElementById("dateJour")
+    dateJour.innerText = dateDay
 }
 
-// Mise à jour de l'heure toutes les secondes
-setInterval(affichageHeure, 1000);
+setInterval(() => {affichageHeure(); }, 1000)
 
-// Fonction pour supprimer une tâche
+// affichageHeure()
+
 function deleteTask(button) {
     const taskElement = button.closest('.task');
     const taskId = taskElement.getAttribute('data-task-id');
@@ -35,14 +48,9 @@ function deleteTask(button) {
     }).then(response => {
         if (response.ok) {
             taskElement.remove();  // Suppression de l'élément DOM après suppression réussie
-            alert("Tâche supprimée avec succès !");
-        } else {
-            alert("Échec de la suppression de la tâche.");
         }
     }).catch(error => console.error('Erreur lors de la suppression de la tâche :', error));
 }
-
-// Fonction pour supprimer une course
 function deleteCourse(button) {
     const courseElement = button.closest('.purchase-item');
     const courseId = courseElement.getAttribute('data-course-id');
@@ -52,15 +60,28 @@ function deleteCourse(button) {
     }).then(response => {
         if (response.ok) {
             courseElement.remove();
-            alert("Course supprimée avec succès !");
-        } else {
-            alert("Échec de la suppression de la course.");
         }
     }).catch(error => console.error('Erreur lors de la suppression de la course :', error));
 }
 
-// Mise à jour du badge d'application
-async function updateBadge() {
+// if ("setAppBadge" in navigator) {
+//     navigator.setAppBadge(1) // Met un "1" sur l'icône
+//       .catch(err => console.error("Erreur badge :", err));
+//   }
+// Mettre à jour le badge sur l'icône de l'application
+if ('setAppBadge' in navigator) {
+    navigator.setAppBadge(1);  // Met le badge avec la valeur 1
+  } else {
+    console.log("setAppBadge n'est pas supporté.");
+  }
+
+  if ("clearAppBadge" in navigator) {
+    window.addEventListener("focus", () => {
+      navigator.clearAppBadge().catch(err => console.error("Erreur suppression badge :", err));
+    });
+  }  
+
+  async function updateBadge() {
     if ('setAppBadge' in navigator) {
         try {
             const response = await fetch('/notifications-count');
