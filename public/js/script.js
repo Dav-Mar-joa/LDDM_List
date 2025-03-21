@@ -64,9 +64,15 @@ function deleteCourse(button) {
     }).catch(error => console.error('Erreur lors de la suppression de la course :', error));
 }
 
-if ("setAppBadge" in navigator) {
-    navigator.setAppBadge(1) // Met un "1" sur l'icône
-      .catch(err => console.error("Erreur badge :", err));
+// if ("setAppBadge" in navigator) {
+//     navigator.setAppBadge(1) // Met un "1" sur l'icône
+//       .catch(err => console.error("Erreur badge :", err));
+//   }
+// Mettre à jour le badge sur l'icône de l'application
+if ('setAppBadge' in navigator) {
+    navigator.setAppBadge(1);  // Met le badge avec la valeur 1
+  } else {
+    console.log("setAppBadge n'est pas supporté.");
   }
 
   if ("clearAppBadge" in navigator) {
