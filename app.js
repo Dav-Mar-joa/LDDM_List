@@ -75,6 +75,21 @@ app.post('/Courses', async (req, res) => {
         res.status(500).send('Erreur lors de l\'ajout de la course');
     }
 });
+// Route pour récupérer le nombre de tâches et courses non complétées
+app.get('/notifications-count', async (req, res) => {
+    try {
+        const tasksCollection = db.collection(process.env.MONGODB_COLLECTION);
+        const coursesCollection = db.collection('Courses');
+
+        const tasksCount = await tasksCollection.countDocuments();
+        const coursesCount = await coursesCollection.countDocuments();
+
+        res.json({ count: tasksCount + coursesCount }); // Envoie le total des tâches/courses
+    } catch (err) {
+        console.error("Erreur lors du comptage des notifications :", err);
+        res.status(500).json({ count: 0 });
+    }
+});
 
 // Route pour la page d'accueil
 app.get('/', async (req, res) => {

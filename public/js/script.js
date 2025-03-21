@@ -63,3 +63,40 @@ function deleteCourse(button) {
         }
     }).catch(error => console.error('Erreur lors de la suppression de la course :', error));
 }
+
+if ("setAppBadge" in navigator) {
+    navigator.setAppBadge(1) // Met un "1" sur l'icône
+      .catch(err => console.error("Erreur badge :", err));
+  }
+
+  if ("clearAppBadge" in navigator) {
+    window.addEventListener("focus", () => {
+      navigator.clearAppBadge().catch(err => console.error("Erreur suppression badge :", err));
+    });
+  }  
+
+  async function updateBadge() {
+    if ('setAppBadge' in navigator) {
+        try {
+            const response = await fetch('/notifications-count');
+            const data = await response.json();
+            if (data.count > 0) {
+                navigator.setAppBadge(data.count);
+            } else {
+                navigator.clearAppBadge();
+            }
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour du badge :", error);
+        }
+    }
+}
+
+// Mettre à jour le badge au chargement de la page
+document.addEventListener('DOMContentLoaded', updateBadge);
+
+// Mettre à jour le badge après chaque ajout de tâche/course
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', () => {
+        setTimeout(updateBadge, 1000); // Attendre un peu pour que la tâche/course soit ajoutée
+    });
+});
