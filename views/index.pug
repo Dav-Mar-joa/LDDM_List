@@ -5,212 +5,157 @@ html(lang="en")
     title Tâches du jour
     link(rel="manifest" href="/manifest.json")
     style.
+
+    
       body {
-          font-family: Arial, sans-serif;
-          margin: 20px;
-          padding: 20px;
-          background-color: #333;
-          display: flex;
-          justify-content: center; /* Centre le contenu de la page */
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #2c2c3e;
+      display: flex;
+      justify-content: center;
+      color: #fff;
       }
       .container {
-          display: flex;
-          flex-direction: row;
-          width: 100%;
-          max-width: 1600px;
-          gap: 40px; /* Augmente l'espace entre les colonnes */
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        max-width: 1600px;
+        gap: 40px;
       }
-      .form-container {
-          flex: 1;
-          width: 25%; /* Ajuste la largeur de la colonne du formulaire */
+      .form-container, .tasks-container, .purchase-container {
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+        background-color: #3a3a52;
       }
-      .tasks-container {
-          flex: 1;
-          width: 40%; /* Ajuste la largeur de la colonne des tâches */
-      }
-      .purchase-container {
-          flex: 1;
-          width: 25%; /* Ajuste la largeur de la colonne des achats */
-      }
-      .form {
-          border: 1px solid #ccc;
-          padding: 10px;
-          border-radius: 5px;
-          background-color: #f9f9f9;
-          margin-bottom: 20px;
-      }
-      .course{
-        text-align:center;
-      }
-      
-      .phrase{
-        text-align:center;
-      }
-      .phraseQuiItem {
+      .form-container { flex: 1; }
+      .tasks-container { flex: 1.5; }
+      .purchase-container { flex: 1; }
+
+      /* --- Titles --- */
+      .titre {
+        font-family: 'Fantasy', sans-serif;
+        font-size: 2.5rem;
+        color: #00ffff;
         text-align: center;
-        border: 2px solid black;
-        border-radius: 10px;
-        padding: 12px;
-        margin-right: 30px;
-        margin-top: 20px;
-        background-color: #fdfd96; /* jaune post-it doux */
-        transform: rotate(-5deg);
-        box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.3);
-        display: inline-block;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 20px;
       }
 
-      .phraseQuiItem {
-        margin-left: 10px !important;
-        margin-top: 10px !important;
-        font-size:1rem; !important;
-      }
-      /* Styles pour petits écrans */
-      @media (max-width: 768px) {
-        .container {
-          flex-direction: column; /* Colonne sur petits écrans */
-        }
-        .form-container, .tasks-container, .purchase-container {
-          width: 100%; /* Occupe toute la largeur sur mobile */
-        }
-        .button-submit-taches, .button-delete {
-          width: 100%; /* Boutons s'étendent sur toute la largeur */
-        }
-      }
-      /* Styles pour grands écrans */
-      @media (min-width: 769px) {
-        .container {
-          flex-direction: row;
-        }
-        .form-container {
-          width: 25%;
-        }
-        .tasks-container {
-          width: 40%;
-        }
-        .purchase-container {
-          width: 25%;
-        }
-      }
-
-      /* Autres styles existants */
-      .date-time {
-          margin-bottom: 15px;
-          
-      }
-      .date-time #dateJour,
-      .date-time #heure {
-          font-size: 18px;
-          color: #333;
-          padding: 5px;
-          display: inline-block;
-          
-      }
+      /* --- Forms --- */
       form {
-          max-width: 100%;
-          padding: 20px;
-          border: 3px solid black;
-          border-radius: 10px;
-          background-color: #f9f9f9;
-          box-shadow: 1px 1px 1px black;
-      }
-      .formDate {
-          max-width: 100%;
-          padding-top: 15px;
-          margin-bottom: 4%;
-          border: 3px solid black;
-          border-radius: 10px;
-          background-color: #f9f9f9;
-          text-align: center;
-          box-shadow: 1px 1px 1px black;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
       label {
-          display: block;
-          margin-bottom: 10px;
-          font-weight: bold;
+        font-weight: bold;
       }
-      input, textarea {
-          width: 90%;
-          padding: 8px;
-          margin: 8px;
-          margin-bottom: 20px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
+      input, textarea, select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 
       }
-      textarea {
-          max-width: 100%;
-          overflow: auto;
+
+html(lang="fr")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Tâches du jour
+    style.
+      /* --- Global --- */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #2c2c3e;
+        display: flex;
+        justify-content: center;
+        color: #fff;
       }
-      button {
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
+      .container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        max-width: 1600px;
+        gap: 40px;
       }
-      .button-submit-taches {
-          background-color: #007bff;
-          color: white;
-          margin-left: auto; 
-          display: block;  
-          margin-top: 20px;
-          box-shadow: 1px 1px 1px black;
-          border : 2px solid black;
+      .form-container, .tasks-container, .purchase-container {
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+        background-color: #3a3a52;
       }
-      .button-submit-taches:hover {
-          background-color: #0056b3;
-      }
-      .button-submit {
-          background-color: #007bff;
-          color: white;
-          box-shadow: 1px 1px 1px black;
-          border : 2px solid black;
-      }
-      .button-submit:hover {
-          background-color: #0056b3;
-      }
-      .button-modify {
-          background-color: #007bff;
-          margin-bottom: 10px;
-          color: white;
-          box-shadow: 1px 1px 1px black;
-          border : 2px solid black;
-      }
-      .button-modify:hover {
-          background-color: #0056b3;
-      }
-      .button-delete {
-          background-color: #dc3545;
-          color: white;
-          box-shadow: 1px 1px 1px black;
-          border : 2px solid black;
-      }
-      .button-delete:hover {
-          background-color: #c82333;
-      }
+      .form-container { flex: 1; }
+      .tasks-container { flex: 1.5; }
+      .purchase-container { flex: 1; }
+
+      /* --- Titles --- */
       .titre {
-          font-family: fantasy;
-          font-size: 3rem;
-          color: aqua;
-          text-align: center;
+        font-family: 'Fantasy', sans-serif;
+        font-size: 2.5rem;
+        color: #00ffff;
+        text-align: center;
+        margin-bottom: 20px;
       }
-      .task {
-          border: 4px solid #ccc;
-          padding: 10px;
-          border-radius: 15px;
-          background-color: #fff;
-          margin-bottom: 15px;
-          white-space: normal; /* Permet le retour à la ligne */
-          word-wrap: break-word; /* Coupe le mot si trop long */
-          box-shadow: 3px 3px 3px black;
+
+      /* --- Forms --- */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
-      .task h3 {
-          margin-top: 0;
+      label {
+        font-weight: bold;
       }
-      .task-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin:auto;
+      input, textarea, select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        border: 2px solid #555;
+        background-color: #505070;
+        color: #fff;
+      }
+      textarea { resize: vertical; }
+
+      button {
+        padding: 10px 20px;
+        border-radius: 10px;
+        border: 2px solid black;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 10px;
+        box-shadow: 3px 3px 8px rgba(0,0,0,0.5);
+        transition: all 0.3s ease;
+      }
+      .button-submit-taches { background-color: #007bff; color: #fff; }
+      .button-submit-taches:hover { background-color: #0056b3; }
+
+      .button-submit, .button-modify { background-color: #00aaff; color: #fff; }
+      .button-submit:hover, .button-modify:hover { background-color: #0077aa; }
+
+      .button-delete { background-color: #dc3545; color: #fff; }
+      .button-delete:hover { background-color: #a71d2a; }
+
+      /* --- Tasks --- */
+      .task, .purchase-item {
+        border-radius: 15px;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+        background-color: #4a4a70;
+      }
+      .nomQui, .nomTache, .taskDescritption, h3.course {
+        margin: 5px 0;
+      }
+      .nomQui {
+        background-color: #c6c3c3;
+        color: #5833eb;
+        text-align: center;
+        padding: 5px 10px;
+        font-weight: 900;
+        border-radius: 10px;
+        border: 2px solid black;
       }
       .faible {
           background-color: green;
@@ -221,103 +166,29 @@ html(lang="en")
       .moyenne {
           background-color: orange;
       }
-      /* Style pour la colonne Achats */
-      .purchase-item {
-          border: 3px solid black;
-          padding: 10px;
-          border-radius: 20px;
-          background-color: #fff;
-          margin-bottom: 10px;
-          box-shadow: 3px 3px 3px black;
-          white-space: normal; /* Permet le retour à la ligne */
-          word-wrap: break-word; /* Coupe le mot si trop long */
+      #qui{
+        margin-top: 10px;
+      }
+      .nomTache { background-color: #6b7fd1; text-align: center; padding: 5px; border-radius: 10px; }
+      .taskDescritption { background-color: #72dbefff; padding: 5px 10px; border-radius: 10px; font-weight: bold; }
+      .date { background-color: #333; color: aqua; padding: 10px; border-radius: 10px; text-align:center; font-size:1.2rem; }
 
-      }
-      .purchase-item h3 {
-          margin-top: 0;
-      }
-      .priority{
-        margin-bottom : 5%;
-        border-radius:10px;
-      }
-      .priority-qui-container {
-        display: flex; /* Utilise Flexbox pour aligner horizontalement */
-        gap: 20px; /* Espacement entre les éléments */
-        align-items: center; /* Centre verticalement les éléments */  
-        font-size: 18px;  
-      }
-      .PhraseQui{
-        display : flex;
-        gap : 10px;
-        align-items : center;
-        flex-wrap: wrap;
-      }
-      .nomQui{
-        margin:auto;
-        text-align:center;
-        //- background-color:rgb(195, 50, 134);
-        background-color:rgb(214, 203, 203);
-        padding:5px;
-        margin-bottom:10px;
-        padding-left :10px;
-        padding-right :10px;
-        border-radius : 10px;
-        border : 2px solid black;
-        font-size: 18px;
-        color:rgb(88, 51, 235);
-        font-weight: 900;
+      /* --- Responsive --- */
+      @media(max-width: 768px) {
+        .container { flex-direction: column; }
+        .form-container, .tasks-container, .purchase-container { width: 90%; }
+        button { width: 100%; }
       }
 
-      .nomTache{
-        margin:auto;
-        text-align:center;
-        background-color: #f9f9f9;
-        padding:5px;
-        padding-left :10px;
-        padding-right :10px;
-        border : 2px solid black;
-        border-radius : 10px;
-        font-size: 18px;
+      .date-time {
+        display: flex;
+        justify-content: center; /* centre horizontalement */
+        gap: 10px; /* espace entre date et heure */
+        margin-bottom : 10px;
       }
-
-      .taskDescritption{
-        margin:auto;
-        text-align:left;
-        background-color: #72dbefff;
-        margin : 10px;
-        padding:5px;
-        padding-left :10px;
-        padding-right :10px;
-        border : 2px solid black;
-        border-radius : 10px;
-        font-size: 14px;
-        font-weight : bold ;
+      .date-time p {
+        margin: 0; /* supprime les marges par défaut */
       }
-      
-      .date{
-        background-color: #333;
-        color: aqua;
-        padding:10px;
-        padding-left :10px;
-        padding-right :10px;
-        border-radius : 10px;
-        text-align:center;
-        font-size:1.3rem;
-      }
-
-      .input-qui{
-        width: 70%;
-      }
-
-      h3.course {
-          margin-top: 10px;
-          text-align: center;
-          border: 2px solid black ;
-          border-radius: 10px;
-          padding: 12px;
-          background-color: #fdfd96; /* jaune post-it doux */
-          box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.3);  
-        }
 
       
   body
@@ -326,8 +197,8 @@ html(lang="en")
         p.titre Tasks To Do
         .formDate
           .date-time
-            #dateJour 
-            #heure 
+            p#dateJour 
+            p#heure 
 
         form(action="/" method="post")
           label(for="task") Tâches :
@@ -350,8 +221,8 @@ html(lang="en")
             label(for="qui" class="qui") 
             select(name="qui" id="qui")
                 option(value="") Qui ?
-                option(value="Dominique") Dominique
-                option(value="Quim-tó") Quim-tó
+                option(value="Lola") Lola
+                option(value="David") David
                 option(value="Les 2") Les 2
           
           button(type="submit" class="button-submit-taches") Ajouter
