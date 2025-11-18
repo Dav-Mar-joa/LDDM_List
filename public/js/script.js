@@ -59,6 +59,38 @@ function deleteCourse(button) {
     }).catch(error => console.error('Erreur lors de la suppression de la course :', error));
 }
 
+function modifyCourse(button) {
+    const courseEl = button.closest('.purchase-item');
+    const oldNameEl = courseEl.querySelector('.course'); // directement
+    const oldName = oldNameEl.innerText;
+
+    courseEl.innerHTML = `
+        <input type="text" id="edit-course-name" value="${oldName}" />
+        <button onclick="saveModifyCourse('${courseEl.dataset.courseId}', this)" class="button-submit">Enregistrer</button>
+    `;
+}
+
+function saveModifyCourse(courseId, button) {
+    const courseEl = button.closest('.purchase-item');
+    const input = courseEl.querySelector('#edit-course-name');
+    const newName = input.value;
+
+    fetch(`/modify-course/${courseId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newName })
+    })
+    .then(res => res.json())
+    .then(updated => {
+        courseEl.innerHTML = `
+            <h3 class="course">${updated.name}</h3>
+            <button type="button" onclick="modifyCourse(this)" class="button-modify">Modifier</button>
+            <button type="button" onclick="deleteCourse(this)" class="button-delete">Supprimer</button>
+        `;
+    })
+    .catch(err => console.error(err));
+}
+
 // Mise à jour du badge d'application
 async function updateBadge() {
     if ('setAppBadge' in navigator) {

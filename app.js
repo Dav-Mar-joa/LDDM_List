@@ -37,6 +37,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware pour parser les données du formulaire
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Route pour soumettre des tâches
@@ -137,6 +138,38 @@ app.delete('/delete-task/:id', async (req, res) => {
     } catch (err) {
         console.error('Erreur lors de la suppression de la tâche :', err);
         res.status(500).send('Erreur lors de la suppression de la tâche');
+    }
+});
+app.put('/modify-course/:id', async (req, res) => {
+    console.log("=== PUT /modify-course CALLED ===");
+    console.log("ID reçu :", req.params.id);
+    console.log("BODY reçu :", req.body);
+
+    try {
+        const collection = db.collection('Courses');
+
+        const result = await collection.findOneAndUpdate(
+            { _id: new ObjectId(req.params.id) },  
+            { $set: { name: req.body.name } },     
+            { returnDocument: 'after' }            
+        );
+
+        console.log("Result VALUE :", result);
+
+        if (!result) {
+            return res.status(404).json({ error: "Course non trouvée" });
+        }
+        console.log("bonjour")
+        console.log("UPDATED :", result);
+        
+        // renvoyer uniquement ce qui est utile au front
+        res.json({ 
+     // toujours string pour le front
+    name: result.name 
+});
+    } catch (err) {
+        console.error("🔥 ERREUR MongoDB :", err.message);
+        res.status(500).json({ error: err.message });
     }
 });
 app.delete('/delete-course/:id', async (req, res) => {
