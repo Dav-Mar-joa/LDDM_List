@@ -1,0 +1,196 @@
+:root{
+  --bg-1: #0f1724; /* deep navy */
+  --bg-2: #0b1020; /* darker */
+  --card: rgba(255,255,255,0.06);
+  --glass: rgba(255,255,255,0.04);
+  --accent-1: #8be9fd; /* cyan */
+  --accent-2: #ffb86b; /* warm */
+  --accent-3: #caa2ff; /* lavender */
+  --muted: #bfc7d6;
+  --glass-border: rgba(255,255,255,0.08);
+  --postit: #fff7c2;
+  --shadow: 0 8px 24px rgba(2,6,23,0.6);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --max-width: 1400px;
+}
+
+/* Global layout */
+*{box-sizing:border-box}
+html,body{height:100%;}
+body{
+  font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(138,233,253,0.06), transparent 10%),
+              radial-gradient(900px 400px at 90% 90%, rgba(202,162,255,0.04), transparent 12%),
+              linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  color: var(--muted);
+  margin:0;
+  padding:36px;
+  display:flex;
+  justify-content:center;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.container{
+  display:flex;
+  gap:32px;
+  width:100%;
+  max-width:var(--max-width);
+  align-items:flex-start;
+}
+
+/* Columns */
+.form-container, .tasks-container, .purchase-container{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: var(--radius-lg);
+  padding:20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
+}
+.form-container{flex:0 1 320px;}
+.tasks-container{flex:1 1 640px;}
+.purchase-container{flex:0 1 300px;}
+
+/* Title */
+.titre{
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  font-size:2.75rem;
+  color:var(--accent-3);
+  text-align:center;
+  letter-spacing:1px;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 6px rgba(202,162,255,0.06);
+  margin-bottom:14px;
+}
+
+/* Date box */
+.formDate{
+  background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 14px;
+  padding:12px;
+  text-align:center;
+  border:1px solid var(--glass-border);
+  margin-bottom:18px;
+}
+.date-time #dateJour, .date-time #heure{
+  display:inline-block;
+  font-weight:600;
+  color:var(--muted);
+}
+
+/* Form */
+form{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  padding:18px;
+  border:1px dashed rgba(255,255,255,0.03);
+}
+label{display:block;margin-bottom:8px;font-weight:700;color:var(--muted);}
+input[type="text"], input[type="datetime-local"], textarea, select{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color:var(--muted);
+  outline:none;
+  transition:box-shadow .18s ease, transform .12s ease, border-color .12s ease;
+}
+input:focus, textarea:focus, select:focus{box-shadow:0 8px 20px rgba(11,16,32,0.6);transform:translateY(-2px);border-color:var(--accent-1)}
+textarea{min-height:56px;resize:vertical}
+
+/* Buttons */
+button{
+  cursor:pointer;
+  font-weight:800;
+  letter-spacing:0.6px;
+}
+.button-submit-taches, .button-submit, .button-modify{
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+  color: #061224;
+  padding:10px 16px;
+  border-radius:12px;
+  border:none;
+  box-shadow: 0 8px 18px rgba(11,16,32,0.6);
+}
+.button-delete{
+  background: linear-gradient(90deg, #ff6b6b, #ff4d4d);
+  color:white;
+  padding:8px 14px;
+  border-radius:12px;
+  border:none;
+  box-shadow:0 6px 14px rgba(200,50,50,0.25);
+}
+.button-submit-taches:hover, .button-submit:hover, .button-modify:hover{transform:translateY(-4px)}
+.button-delete:hover{transform:translateY(-2px)}
+
+/* Task cards */
+.task{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:16px;
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.5);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.task:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(2,6,23,0.6)}
+.task h3{margin:6px 0}
+.task-header{display:flex;gap:12px;align-items:center;justify-content:space-between}
+
+/* Priority colors (subtle badges) */
+.faible{border-left:8px solid #2ecc71}
+.moyenne{border-left:8px solid #f39c12}
+.haute{border-left:8px solid #e74c3c}
+
+/* Name & title chips */
+.nomQui{
+  display:inline-block;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:8px 12px;border-radius:999px;border:2px solid rgba(0,0,0,0.5);
+  font-weight:900;color:var(--accent-2);box-shadow:0 6px 18px rgba(0,0,0,0.45)
+}
+.nomTache{display:block;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-weight:700}
+.taskDescritption{background:linear-gradient(180deg,#fefefe08,#72dbefff14);padding:10px;border-radius:10px;margin-top:10px;color:var(--muted);font-weight:700}
+
+.date{background:transparent;color:var(--accent-1);padding:6px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+
+/* Purchase column */
+.purchase-item{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;margin-bottom:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.03)}
+.purchase-item h3{margin:0;font-weight:800;color:var(--muted)}
+
+/* Phrase / post-it style */
+.phraseQuiItem{
+  display:inline-block;padding:12px 14px;border-radius:12px;background:var(--postit);border:2px solid rgba(0,0,0,0.6);
+  transform:rotate(-3deg);box-shadow:8px 12px 22px rgba(0,0,0,0.45);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.phraseQuiItem:hover{transform:rotate(0deg) translateY(-6px);box-shadow:12px 18px 32px rgba(0,0,0,0.5)}
+
+/* Variations to make it playful */
+.PhraseQui .phraseQuiItem:nth-child(2n){transform:rotate(4deg);background:#fff0b8}
+.PhraseQui .phraseQuiItem:nth-child(3n){transform:rotate(-6deg);background:#fff5d6}
+
+/* Responsive */
+@media (max-width:1000px){
+  .container{flex-direction:column;padding:22px;gap:18px}
+  .form-container,.tasks-container,.purchase-container{width:100%}
+  .titre{font-size:2rem}
+}
+
+@media (max-width:480px){
+  body{padding:16px}
+  .titre{font-size:1.6rem}
+  input, textarea{padding:10px}
+  .nomQui{font-size:14px}
+}
+
+/* Small UI niceties */
+button:active{transform:translateY(1px)}
+input::placeholder, textarea::placeholder{color: #98a2b3}
+
+/* Utility classes */
+.center{text-align:center}
+.inline{display:inline-block}
+
+/* End of stylesheet */
