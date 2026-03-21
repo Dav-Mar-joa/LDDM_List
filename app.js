@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config();
 const bodyParser = require('body-parser');
-const prompt = require("prompt-sync")();
+// const prompt = require("prompt-sync")();
 
 const { MongoClient, ObjectId } = require('mongodb');
 
