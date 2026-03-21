@@ -28,7 +28,9 @@ setInterval(affichageHeure, 1000);
 // Fonction pour supprimer une tâche
 function deleteTask(button) {
     const taskElement = button.closest('.task');
+    console.log("taskElement:", taskElement);
     const taskId = taskElement.getAttribute('data-task-id');
+    console.log("taskId:", taskId);
     
     fetch(`/delete-task/${taskId}`, {
         method: 'DELETE'
@@ -45,12 +47,17 @@ function deleteTask(button) {
 // Fonction pour supprimer une course
 function deleteCourse(button) {
     const courseElement = button.closest('.purchase-item');
+    console.log("courseElement:", courseElement);
     const courseId = courseElement.getAttribute('data-course-id');
+    console.log("courseId:", courseId);
+    console.log("=== DELETE COURSE FUNCTION CALLED ===");
     
     fetch(`/delete-course/${courseId}`, {
         method: 'DELETE'
+        
     }).then(response => {
         if (response.ok) {
+            console.log("=== FETCH DELETE COURSE CALLED ===");
             courseElement.remove();
             // alert("Course supprimée avec succès !");
         } else {

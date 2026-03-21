@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config();
 const bodyParser = require('body-parser');
+const prompt = require("prompt-sync")();
 
 const { MongoClient, ObjectId } = require('mongodb');
 
@@ -131,6 +132,7 @@ app.get('/', async (req, res) => {
 });
 app.delete('/delete-task/:id', async (req, res) => {
     const taskId = req.params.id;
+    
     try {
         const collection = db.collection(process.env.MONGODB_COLLECTION);
         await collection.deleteOne({ _id: new ObjectId(taskId) });
@@ -149,6 +151,11 @@ app.put('/modify-course/:id', async (req, res) => {
         const collection = db.collection('Courses');
 
         const result = await collection.findOneAndUpdate(
+            { _id: new ObjectId(req.params.id) },  
+            { $set: { name: req.body.name } },     
+            { returnDocument: 'after' }            
+        );
+        const result2 = await collection.findOne(
             { _id: new ObjectId(req.params.id) },  
             { $set: { name: req.body.name } },     
             { returnDocument: 'after' }            
@@ -174,6 +181,8 @@ app.put('/modify-course/:id', async (req, res) => {
 });
 app.delete('/delete-course/:id', async (req, res) => {
     const courseId = req.params.id;
+    console.log("courseId to delete:", courseId);
+    console.log("fetch ?/delete-course/:id called");
     try {
         const collection = db.collection('Courses');
         await collection.deleteOne({ _id: new ObjectId(courseId) });
@@ -183,6 +192,10 @@ app.delete('/delete-course/:id', async (req, res) => {
         res.status(500).send('Erreur lors de la suppression de la course');
     }
 })
+
+app.get('/wake', (req, res) => {
+  res.status(200).json({ status: 'ok', time: new Date().toISOString() });
+});
 // Démarrer le serveur sur le port spécifié dans .env ou sur 4000 par défaut
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
