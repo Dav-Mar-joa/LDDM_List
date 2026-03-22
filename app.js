@@ -21,10 +21,9 @@ async function connectDB() {
         console.log('Connecté à la base de données MongoDB');
     } catch (err) {
         console.error('Erreur de connexion à la base de données :', err);
+        process.exit(1);
     }
 }
-
-connectDB();
 
 // Config Web Push
 webpush.setVapidDetails(
@@ -88,7 +87,6 @@ app.post('/api/subscribe', async (req, res) => {
 // TÂCHES
 // ─────────────────────────────────────────────
 
-// Ajouter une tâche
 app.post('/', async (req, res) => {
     const dateJ = req.body.date ? new Date(req.body.date) : new Date();
     const task = {
@@ -106,7 +104,7 @@ app.post('/', async (req, res) => {
         await sendPushToAll({
             title: '📋 Nouvelle tâche ajoutée',
             body: `${task.qui} a ajouté : "${task.name}"`,
-            icon: '/icons/icon-192.png',
+            icon: '/assets/icons/icon192.png',
             url: '/'
         }, task.qui);
 
@@ -117,7 +115,6 @@ app.post('/', async (req, res) => {
     }
 });
 
-// Supprimer une tâche
 app.delete('/delete-task/:id', async (req, res) => {
     const taskId = req.params.id;
     const qui = req.query.qui || 'Quelqu\'un';
@@ -131,7 +128,7 @@ app.delete('/delete-task/:id', async (req, res) => {
             await sendPushToAll({
                 title: '🗑️ Tâche supprimée',
                 body: `${qui} a supprimé "${task.name}"`,
-                icon: '/icons/icon-192.png',
+                icon: '/assets/icons/icon192.png',
                 url: '/'
             }, qui);
         }
@@ -147,7 +144,6 @@ app.delete('/delete-task/:id', async (req, res) => {
 // COURSES
 // ─────────────────────────────────────────────
 
-// Ajouter une course
 app.post('/Courses', async (req, res) => {
     const course = {
         name: req.body.buy,
@@ -161,7 +157,7 @@ app.post('/Courses', async (req, res) => {
         await sendPushToAll({
             title: '🛒 Course ajoutée',
             body: `"${course.name}" a été ajouté à la liste de courses`,
-            icon: '/icons/icon-192.png',
+            icon: '/assets/icons/icon192.png',
             url: '/'
         });
 
@@ -172,7 +168,6 @@ app.post('/Courses', async (req, res) => {
     }
 });
 
-// Modifier une course
 app.put('/modify-course/:id', async (req, res) => {
     try {
         const collection = db.collection('Courses');
@@ -191,7 +186,7 @@ app.put('/modify-course/:id', async (req, res) => {
         await sendPushToAll({
             title: '✏️ Course modifiée',
             body: `"${oldCourse?.name}" → "${result.name}"`,
-            icon: '/icons/icon-192.png',
+            icon: '/assets/icons/icon192.png',
             url: '/'
         });
 
@@ -202,7 +197,6 @@ app.put('/modify-course/:id', async (req, res) => {
     }
 });
 
-// Supprimer une course
 app.delete('/delete-course/:id', async (req, res) => {
     const courseId = req.params.id;
     const qui = req.query.qui || 'Quelqu\'un';
@@ -216,7 +210,7 @@ app.delete('/delete-course/:id', async (req, res) => {
             await sendPushToAll({
                 title: '🗑️ Course supprimée',
                 body: `${qui} a supprimé "${course.name}"`,
-                icon: '/icons/icon-192.png',
+                icon: '/assets/icons/icon192.png',
                 url: '/'
             }, qui);
         }
@@ -250,17 +244,10 @@ app.get('/', async (req, res) => {
     const successCourse = req.query.successCourse === 'true';
 
     try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
         const collection = db.collection(process.env.MONGODB_COLLECTION);
         const collectionCourses = db.collection('Courses');
         const tasks = await collection.find({}).sort({ date: -1 }).toArray();
         const courses = await collectionCourses.find({}).toArray();
-
-        tasks.forEach(task => {
-            console.log('Original Date:', task.date.toString().slice(0, 10));
-        });
 
         res.render('index', {
             title: 'Mon site',
@@ -280,7 +267,12 @@ app.get('/wake', (req, res) => {
     res.status(200).json({ status: 'ok', time: new Date().toISOString() });
 });
 
+// ─────────────────────────────────────────────
+// DÉMARRAGE : MongoDB d'abord, serveur ensuite
+// ─────────────────────────────────────────────
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Serveur démarré sur le port ${PORT}`);
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Serveur démarré sur le port ${PORT}`);
+    });
 });
