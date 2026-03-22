@@ -1,76 +1,9 @@
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Tâches du jour
-    link(rel="manifest" href="/manifest.json")
-    style.
-
-    
-      body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #2c2c3e;
-      display: flex;
-      justify-content: center;
-      color: #fff;
-      }
-      .container {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        max-width: 1600px;
-        gap: 40px;
-      }
-      .form-container, .tasks-container, .purchase-container {
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-        background-color: #3a3a52;
-      }
-      .form-container { flex: 1; }
-      .tasks-container { flex: 1.5; }
-      .purchase-container { flex: 1; }
-
-      /* --- Titles --- */
-      .titre {
-        font-family: 'Fantasy', sans-serif;
-        font-size: 2.5rem;
-        color: #00ffff;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      /* --- Forms --- */
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      label {
-        font-weight: bold;
-      }
-      input, textarea, select {
-        width: 100%;
-        padding: 8px;
-        border-radius: 
-      }
-
-      #btn-notif {
-        display: none;
-        width: 100%;
-        background-color: #00aaff;
-        color: #fff;
-        overflow: hidden;
-        max-height: 60px;
-      }
-
 html(lang="fr")
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title Tâches du jour
+    link(rel="manifest" href="/manifest.json")
     style.
       /* --- Global --- */
       body {
@@ -146,6 +79,17 @@ html(lang="fr")
       .button-delete { background-color: #dc3545; color: #fff; }
       .button-delete:hover { background-color: #a71d2a; }
 
+      /* --- Bouton notifications --- */
+      #btn-notif {
+        display: none;
+        width: 100%;
+        background-color: #00aaff;
+        color: #fff;
+        overflow: hidden;
+        max-height: 60px;
+      }
+      #btn-notif:hover { background-color: #0077aa; }
+
       /* --- Tasks --- */
       .task, .purchase-item {
         border-radius: 15px;
@@ -166,18 +110,12 @@ html(lang="fr")
         border-radius: 10px;
         border: 2px solid black;
       }
-      .faible {
-          background-color: green;
-      }
-      .haute {
-          background-color: red;
-      }
-      .moyenne {
-          background-color: orange;
-      }
-      #qui{
-        margin-top: 10px;
-      }
+      .faible { background-color: green; }
+      .haute { background-color: red; }
+      .moyenne { background-color: orange; }
+
+      #qui { margin-top: 10px; }
+
       .nomTache { background-color: #6b7fd1; text-align: center; padding: 5px; border-radius: 10px; }
       .taskDescritption { background-color: #72dbefff; padding: 5px 10px; border-radius: 10px; font-weight: bold; }
       .date { background-color: #333; color: aqua; padding: 10px; border-radius: 10px; text-align:center; font-size:1.2rem; }
@@ -191,79 +129,77 @@ html(lang="fr")
 
       .date-time {
         display: flex;
-        justify-content: center; /* centre horizontalement */
-        gap: 10px; /* espace entre date et heure */
-        margin-bottom : 10px;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
       }
-      .date-time p {
-        margin: 0; /* supprime les marges par défaut */
-      }
+      .date-time p { margin: 0; }
 
-      
   body
     .container
+
+      //- ── FORMULAIRE TÂCHES ──
       .form-container
         p.titre Tasks To Do
         .formDate
           .date-time
-            p#dateJour 
-            p#heure 
+            p#dateJour
+            p#heure
 
         form(action="/" method="post")
           label(for="task") Tâches :
           input(type="text" id="task" name="task" required)
-          
+
           label(for="date") Date et Heure :
           input(type="datetime-local" id="date" name="date")
-          
+
           label(for="description") Descriptions :
           textarea(id="description" name="description" rows="1")
-          
+
           .priority-qui-container
-            label(for="priority" class="priority") 
+            label(for="priority" class="priority")
             select(name="priority" id="priority")
-                option(value="") Priorité 
-                option(value="haute") Haute
-                option(value="moyenne") Moyenne
-                option(value="faible") Faible
+              option(value="") Priorité
+              option(value="haute") Haute
+              option(value="moyenne") Moyenne
+              option(value="faible") Faible
 
-            label(for="qui" class="qui") 
+            label(for="qui" class="qui")
             select(name="qui" id="qui")
-                option(value="") Qui ?
-                option(value="Lola") Lola
-                option(value="David") David
-                option(value="Les 2") Les 2
-          
-          button(type="submit" class="button-submit-taches") Ajouter
-          button#btn-notif(type="button" onclick="activerNotifications()") 🔔 Activer les notifications
-          
+              option(value="") Qui ?
+              option(value="Lola") Lola
+              option(value="David") David
+              option(value="Les 2") Les 2
 
+          button(type="submit" class="button-submit-taches") Ajouter
+
+        button#btn-notif(type="button" onclick="activerNotifications()") 🔔 Activer les notifications
+
+      //- ── LISTE DES TÂCHES ──
       .tasks-container
         each task in tasks
-          .task(data-task-id=task._id)(class=task.priority)
-                .task-header
-                //- p.date #{new Intl.DateTimeFormat('fr-FR').format(new Date(task.date))}
-                //- p.date #{new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(task.date))}
-                p.date #{new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric'}).format(new Date(task.date))}
-                  p.date #{new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit'}).format(new Date(task.date))}
- 
-                h3.nomQui #{task.qui}  
-                h3.nomTache #{task.name}
-                p.taskDescritption Commentaire : #{task.description}
-                button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
+          .task(data-task-id=task._id class=task.priority)
+            .task-header
+              p.date #{new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric'}).format(new Date(task.date))}
+                p.date #{new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit'}).format(new Date(task.date))}
+              h3.nomQui #{task.qui}
+              h3.nomTache #{task.name}
+              p.taskDescritption Commentaire : #{task.description}
+              button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
 
+      //- ── COURSES ──
       .purchase-container
         p.titre Courses
-          form(action="/courses" method="post")
-            label(for="buy") 
-            input(type="text" id="buy" name="buy" required)
-            button(type="submit" class="button-submit") Ajouter  
-        
+        form(action="/Courses" method="post")
+          label(for="buy")
+          input(type="text" id="buy" name="buy" required)
+          button(type="submit" class="button-submit") Ajouter
+
         each course in courses
           .purchase-item(data-course-id=course._id)
             h3.course #{course.name}
             button(type="button" onclick="modifyCourse(this)" class="button-modify") Modifier
-            button(type="button" onclick="deleteCourse(this)" class="button-delete") Supprimer                       
+            button(type="button" onclick="deleteCourse(this)" class="button-delete") Supprimer
 
     script(src="/js/script.js")
     script(src="/js/push-init.js")
