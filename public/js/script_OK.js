@@ -17,10 +17,12 @@ function affichageHeure() {
     const clock = `${hour}:${min}:${sec}`;
     const dateDay = `${jours[day]} ${numberDay} ${mois[month]}`;
 
+    // Afficher l'heure et la date
     document.getElementById("heure").innerText = clock;
     document.getElementById("dateJour").innerText = dateDay;
 }
 
+// Mise à jour de l'heure toutes les secondes
 setInterval(affichageHeure, 1000);
 
 // Fonction pour supprimer une tâche
@@ -29,14 +31,15 @@ function deleteTask(button) {
     console.log("taskElement:", taskElement);
     const taskId = taskElement.getAttribute('data-task-id');
     console.log("taskId:", taskId);
-
-    const userName = localStorage.getItem('lddm_user') || 'Inconnu';
-
-    fetch(`/delete-task/${taskId}?qui=${encodeURIComponent(userName)}`, {
+    
+    fetch(`/delete-task/${taskId}`, {
         method: 'DELETE'
     }).then(response => {
         if (response.ok) {
-            taskElement.remove();
+            taskElement.remove();  // Suppression de l'élément DOM après suppression réussie
+            // alert("Tâche supprimée avec succès !");
+        } else {
+            // alert("Échec de la suppression de la tâche.");
         }
     }).catch(error => console.error('Erreur lors de la suppression de la tâche :', error));
 }
@@ -48,22 +51,24 @@ function deleteCourse(button) {
     const courseId = courseElement.getAttribute('data-course-id');
     console.log("courseId:", courseId);
     console.log("=== DELETE COURSE FUNCTION CALLED ===");
-
-    const userName = localStorage.getItem('lddm_user') || 'Inconnu';
-
-    fetch(`/delete-course/${courseId}?qui=${encodeURIComponent(userName)}`, {
+    
+    fetch(`/delete-course/${courseId}`, {
         method: 'DELETE'
+        
     }).then(response => {
         if (response.ok) {
             console.log("=== FETCH DELETE COURSE CALLED ===");
             courseElement.remove();
+            // alert("Course supprimée avec succès !");
+        } else {
+            // alert("Échec de la suppression de la course.");
         }
     }).catch(error => console.error('Erreur lors de la suppression de la course :', error));
 }
 
 function modifyCourse(button) {
     const courseEl = button.closest('.purchase-item');
-    const oldNameEl = courseEl.querySelector('.course');
+    const oldNameEl = courseEl.querySelector('.course'); // directement
     const oldName = oldNameEl.innerText;
 
     courseEl.innerHTML = `
@@ -110,11 +115,13 @@ async function updateBadge() {
     }
 }
 
+// Mettre à jour le badge au chargement de la page
 document.addEventListener('DOMContentLoaded', updateBadge);
 
+// Mettre à jour le badge après chaque ajout de tâche/course
 document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', () => {
-        setTimeout(updateBadge, 1000);
+        setTimeout(updateBadge, 1000); // Attendre un peu pour que la tâche/course soit ajoutée
     });
 });
 
@@ -126,6 +133,24 @@ function updateTitleBadge(count) {
     }
 }
 
+// async function updateBadge() {
+//     try {
+//         const response = await fetch('/notifications-count');
+//         const data = await response.json();
+        
+//         if ('setAppBadge' in navigator) {
+//             if (data.count > 0) {
+//                 navigator.setAppBadge(data.count);
+//             } else {
+//                 navigator.clearAppBadge();
+//             }
+//         } else {
+//             updateTitleBadge(data.count);
+//         }
+//     } catch (error) {
+//         console.error("Erreur lors de la mise à jour du badge :", error);
+//     }
+// }
 if ('setAppBadge' in navigator) {
     async function updateAppBadge(count) {
         try {
@@ -139,6 +164,7 @@ if ('setAppBadge' in navigator) {
         }
     }
 
+    // Exemple d'appel pour mettre à jour le badge avec le nombre de notifications
     fetch('/notifications-count')
         .then(response => response.json())
         .then(data => updateAppBadge(data.count));
@@ -146,7 +172,7 @@ if ('setAppBadge' in navigator) {
 
 function updateBadge(count) {
     const badge = document.getElementById("badge");
-    if (!badge) return;
+    if (!badge) return; // Sécurité si l'élément n'existe pas
     if (count > 0) {
         badge.textContent = count;
         badge.style.display = "block";
