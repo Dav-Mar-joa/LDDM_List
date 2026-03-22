@@ -64,15 +64,11 @@ async function activerNotifications() {
         localStorage.setItem('lddm_user', userName);
         localStorage.setItem('lddm_push_accepted', 'true');
 
-        // Feedback visuel vert
+        // Feedback visuel vert puis cacher
         btn.textContent = '✅ Notifications activées !';
         btn.style.backgroundColor = '#25a244';
         btn.disabled = true;
-
-        // Disparition après 2 secondes
-        setTimeout(() => {
-            btn.style.display = 'none';
-        }, 2000);
+        btn.style.display = 'none';
 
     } catch (err) {
         console.error('Erreur activation push :', err);
@@ -85,7 +81,7 @@ async function activerNotifications() {
     }
 }
 
-// Au chargement : afficher le bouton, puis vérifier si déjà abonné
+// Au chargement : vérifier localStorage EN PREMIER avant d'afficher le bouton
 document.addEventListener('DOMContentLoaded', async () => {
     const btn = document.getElementById('btn-notif');
     if (!btn) return;
@@ -95,17 +91,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const quiSelect = document.getElementById('qui');
     if (savedUser && quiSelect) quiSelect.value = savedUser;
 
-    // Afficher le bouton immédiatement
-    btn.style.display = 'block';
-
-    // Vérifier en arrière-plan si déjà abonné → cacher le bouton
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-        try {
-            const registration = await navigator.serviceWorker.ready;
-            const existing = await registration.pushManager.getSubscription();
-            if (existing && localStorage.getItem('lddm_push_accepted') === 'true') {
-                btn.style.display = 'none';
-            }
-        } catch (e) { /* silencieux */ }
+    // Si déjà accepté via localStorage → cacher immédiatement sans attendre
+    if (localStorage.getItem('lddm_push_accepted') === 'true') {
+        btn.style.display = 'none';
+        return;
     }
+
+    // Sinon afficher le bouton
+    btn.style.display = 'block';
 });
