@@ -23,6 +23,8 @@ async function activerNotifications() {
         return;
     }
 
+    console.log("dans inti notif");
+
     // Récupérer le nom dans le select "Qui ?"
     const quiSelect = document.getElementById('qui');
     const userName = quiSelect?.value || localStorage.getItem('lddm_user') || '';
@@ -64,20 +66,24 @@ async function activerNotifications() {
         localStorage.setItem('lddm_user', userName);
         localStorage.setItem('lddm_push_accepted', 'true');
 
-        // Feedback visuel vert
+        // Feedback visuel → puis le bouton disparaît en fondu
         btn.textContent = '✅ Notifications activées !';
         btn.style.backgroundColor = '#25a244';
         btn.disabled = true;
 
-        // Disparition après 2 secondes
         setTimeout(() => {
-            btn.style.display = 'none';
-        }, 2000);
+            btn.style.transition = 'opacity 0.6s ease, max-height 0.6s ease, padding 0.6s ease, margin 0.6s ease';
+            btn.style.opacity = '0';
+            btn.style.maxHeight = '0';
+            btn.style.padding = '0';
+            btn.style.margin = '0';
+            btn.style.overflow = 'hidden';
+            setTimeout(() => btn.remove(), 700);
+        }, 1500);
 
     } catch (err) {
         console.error('Erreur activation push :', err);
         btn.textContent = '❌ Erreur, réessaie';
-        btn.disabled = false;
         setTimeout(() => {
             btn.textContent = '🔔 Activer les notifications';
             btn.style.backgroundColor = '#00aaff';
@@ -85,7 +91,32 @@ async function activerNotifications() {
     }
 }
 
-// Au chargement : afficher le bouton, puis vérifier si déjà abonné
+// // Au chargement : vérifier si déjà abonné → cacher le bouton
+// document.addEventListener('DOMContentLoaded', async () => {
+//     const btn = document.getElementById('btn-notif');
+//     if (!btn) return;
+
+//     // Restaurer le dernier nom sélectionné dans "Qui ?"
+//     const savedUser = localStorage.getItem('lddm_user');
+//     const quiSelect = document.getElementById('qui');
+//     if (savedUser && quiSelect) quiSelect.value = savedUser;
+
+//     // Si déjà abonné → supprimer le bouton silencieusement
+//     if ('serviceWorker' in navigator && 'PushManager' in window) {
+//         try {
+//             const registration = await navigator.serviceWorker.ready;
+//             const existing = await registration.pushManager.getSubscription();
+//             if (existing && localStorage.getItem('lddm_push_accepted') === 'true') {
+//                 btn.remove();
+//                 return;
+//             }
+//         } catch (e) { /* silencieux */ }
+//     }
+
+//     // Sinon afficher le bouton
+//     btn.style.display = 'block';
+// });
+
 document.addEventListener('DOMContentLoaded', async () => {
     const btn = document.getElementById('btn-notif');
     if (!btn) return;
@@ -104,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const registration = await navigator.serviceWorker.ready;
             const existing = await registration.pushManager.getSubscription();
             if (existing && localStorage.getItem('lddm_push_accepted') === 'true') {
-                btn.style.display = 'none';
+                btn.remove();
             }
         } catch (e) { /* silencieux */ }
     }
