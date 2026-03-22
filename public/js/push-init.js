@@ -23,6 +23,8 @@ async function activerNotifications() {
         return;
     }
 
+    console.log("dans inti notif");
+
     // Récupérer le nom dans le select "Qui ?"
     const quiSelect = document.getElementById('qui');
     const userName = quiSelect?.value || localStorage.getItem('lddm_user') || '';
