@@ -57,6 +57,15 @@ html(lang="en")
         border-radius: 
       }
 
+      #btn-notif {
+        display: none;
+        width: 100%;
+        background-color: #00aaff;
+        color: #fff;
+        overflow: hidden;
+        max-height: 60px;
+      }
+
 html(lang="fr")
   head
     meta(charset="UTF-8")
@@ -226,6 +235,7 @@ html(lang="fr")
                 option(value="Les 2") Les 2
           
           button(type="submit" class="button-submit-taches") Ajouter
+          button#btn-notif(type="button" onclick="activerNotifications()") 🔔 Activer les notifications
           
 
       .tasks-container
@@ -253,12 +263,10 @@ html(lang="fr")
           .purchase-item(data-course-id=course._id)
             h3.course #{course.name}
             button(type="button" onclick="modifyCourse(this)" class="button-modify") Modifier
-            button(type="button" onclick="deleteCourse(this)" class="button-delete") Supprimer
-
-
-                               
+            button(type="button" onclick="deleteCourse(this)" class="button-delete") Supprimer                       
 
     script(src="/js/script.js")
+    script(src="/js/push-init.js")
     script.
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
