@@ -91,7 +91,32 @@ async function activerNotifications() {
     }
 }
 
-// Au chargement : vérifier si déjà abonné → cacher le bouton
+// // Au chargement : vérifier si déjà abonné → cacher le bouton
+// document.addEventListener('DOMContentLoaded', async () => {
+//     const btn = document.getElementById('btn-notif');
+//     if (!btn) return;
+
+//     // Restaurer le dernier nom sélectionné dans "Qui ?"
+//     const savedUser = localStorage.getItem('lddm_user');
+//     const quiSelect = document.getElementById('qui');
+//     if (savedUser && quiSelect) quiSelect.value = savedUser;
+
+//     // Si déjà abonné → supprimer le bouton silencieusement
+//     if ('serviceWorker' in navigator && 'PushManager' in window) {
+//         try {
+//             const registration = await navigator.serviceWorker.ready;
+//             const existing = await registration.pushManager.getSubscription();
+//             if (existing && localStorage.getItem('lddm_push_accepted') === 'true') {
+//                 btn.remove();
+//                 return;
+//             }
+//         } catch (e) { /* silencieux */ }
+//     }
+
+//     // Sinon afficher le bouton
+//     btn.style.display = 'block';
+// });
+
 document.addEventListener('DOMContentLoaded', async () => {
     const btn = document.getElementById('btn-notif');
     if (!btn) return;
@@ -101,18 +126,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const quiSelect = document.getElementById('qui');
     if (savedUser && quiSelect) quiSelect.value = savedUser;
 
-    // Si déjà abonné → supprimer le bouton silencieusement
+    // Afficher le bouton immédiatement
+    btn.style.display = 'block';
+
+    // Vérifier en arrière-plan si déjà abonné → cacher le bouton
     if ('serviceWorker' in navigator && 'PushManager' in window) {
         try {
             const registration = await navigator.serviceWorker.ready;
             const existing = await registration.pushManager.getSubscription();
             if (existing && localStorage.getItem('lddm_push_accepted') === 'true') {
                 btn.remove();
-                return;
             }
         } catch (e) { /* silencieux */ }
     }
-
-    // Sinon afficher le bouton
-    btn.style.display = 'block';
 });
