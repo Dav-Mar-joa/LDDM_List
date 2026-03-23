@@ -15,71 +15,98 @@ async function saveSubscription(subscription, userName) {
     });
 }
 
+// async function activerNotifications() {
+//     const btn = document.getElementById('btn-notif');
+
+//     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+//         btn.textContent = '❌ Non supporté sur ce navigateur';
+//         return;
+//     }
+
+//     // Récupérer le nom dans le select "Qui ?"
+//     const quiSelect = document.getElementById('qui');
+//     const userName = quiSelect?.value || localStorage.getItem('lddm_user') || '';
+
+//     if (!userName) {
+//         btn.textContent = '⚠️ Choisis ton nom d\'abord !';
+//         btn.style.backgroundColor = '#e67e22';
+//         setTimeout(() => {
+//             btn.textContent = '🔔 Activer les notifications';
+//             btn.style.backgroundColor = '#00aaff';
+//         }, 2500);
+//         return;
+//     }
+
+//     // Demander la permission système
+//     const permission = await Notification.requestPermission();
+//     if (permission !== 'granted') {
+//         btn.textContent = '🔕 Permission refusée';
+//         btn.style.backgroundColor = '#666';
+//         setTimeout(() => {
+//             btn.textContent = '🔔 Activer les notifications';
+//             btn.style.backgroundColor = '#00aaff';
+//         }, 3000);
+//         return;
+//     }
+
+//     try {
+//         const registration = await navigator.serviceWorker.ready;
+//         const { key } = await fetch('/api/vapid-public-key').then(r => r.json());
+
+//         const subscription = await registration.pushManager.subscribe({
+//             userVisibleOnly: true,
+//             applicationServerKey: urlBase64ToUint8Array(key)
+//         });
+
+//         await saveSubscription(subscription, userName);
+
+//         // Mémoriser localement
+//         localStorage.setItem('lddm_user', userName);
+//         localStorage.setItem('lddm_push_accepted', 'true');
+
+//         // Feedback visuel vert puis cacher
+//         btn.textContent = '✅ Notifications activées !';
+//         btn.style.backgroundColor = '#25a244';
+//         btn.disabled = true;
+//         btn.style.display = 'none';
+
+//     } catch (err) {
+//         console.error('Erreur activation push :', err);
+//         alert('ERREUR: ' + err.message); // ← ajoute cette ligne
+//         btn.textContent = '❌ Erreur, réessaie';
+//         btn.disabled = false;
+//         setTimeout(() => {
+//             btn.textContent = '🔔 Activer les notifications';
+//             btn.style.backgroundColor = '#00aaff';
+//         }, 3000);
+//     }
+// }
+
 async function activerNotifications() {
     const btn = document.getElementById('btn-notif');
-
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-        btn.textContent = '❌ Non supporté sur ce navigateur';
-        return;
-    }
-
-    // Récupérer le nom dans le select "Qui ?"
-    const quiSelect = document.getElementById('qui');
-    const userName = quiSelect?.value || localStorage.getItem('lddm_user') || '';
-
-    if (!userName) {
-        btn.textContent = '⚠️ Choisis ton nom d\'abord !';
-        btn.style.backgroundColor = '#e67e22';
-        setTimeout(() => {
-            btn.textContent = '🔔 Activer les notifications';
-            btn.style.backgroundColor = '#00aaff';
-        }, 2500);
-        return;
-    }
-
-    // Demander la permission système
+    
+    alert('étape 1 - début');
+    
     const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-        btn.textContent = '🔕 Permission refusée';
-        btn.style.backgroundColor = '#666';
-        setTimeout(() => {
-            btn.textContent = '🔔 Activer les notifications';
-            btn.style.backgroundColor = '#00aaff';
-        }, 3000);
-        return;
-    }
-
-    try {
-        const registration = await navigator.serviceWorker.ready;
-        const { key } = await fetch('/api/vapid-public-key').then(r => r.json());
-
-        const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(key)
-        });
-
-        await saveSubscription(subscription, userName);
-
-        // Mémoriser localement
-        localStorage.setItem('lddm_user', userName);
-        localStorage.setItem('lddm_push_accepted', 'true');
-
-        // Feedback visuel vert puis cacher
-        btn.textContent = '✅ Notifications activées !';
-        btn.style.backgroundColor = '#25a244';
-        btn.disabled = true;
-        btn.style.display = 'none';
-
-    } catch (err) {
-        console.error('Erreur activation push :', err);
-        alert('ERREUR: ' + err.message); // ← ajoute cette ligne
-        btn.textContent = '❌ Erreur, réessaie';
-        btn.disabled = false;
-        setTimeout(() => {
-            btn.textContent = '🔔 Activer les notifications';
-            btn.style.backgroundColor = '#00aaff';
-        }, 3000);
-    }
+    alert('étape 2 - permission: ' + permission);
+    
+    if (permission !== 'granted') return;
+    
+    alert('étape 3 - avant serviceWorker.ready');
+    const registration = await navigator.serviceWorker.ready;
+    alert('étape 4 - serviceWorker prêt');
+    
+    const { key } = await fetch('/api/vapid-public-key').then(r => r.json());
+    alert('étape 5 - clé VAPID récupérée: ' + key.substring(0, 20) + '...');
+    
+    const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(key)
+    });
+    alert('étape 6 - abonné !');
+    
+    btn.style.display = 'none';
+    alert('étape 7 - bouton caché !');
 }
 
 // Au chargement : vérifier localStorage EN PREMIER avant d'afficher le bouton
