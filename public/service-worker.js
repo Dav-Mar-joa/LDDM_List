@@ -36,7 +36,7 @@ self.addEventListener('push', function(event) {
         icon: '/assets/icons/icon192.png',
         badge: '/assets/icons/badge.png',
         vibrate: [200, 100, 200],
-        tag: 'lddm-notification',
+        tag: 'lddm-notification'+Date.now(),
         data: { url: data.url || '/' }
     };
     event.waitUntil(self.registration.showNotification(data.title || 'LDDM', options));
