@@ -72,6 +72,7 @@ async function activerNotifications() {
 
     } catch (err) {
         console.error('Erreur activation push :', err);
+        alert('ERREUR: ' + err.message); // ← ajoute cette ligne
         btn.textContent = '❌ Erreur, réessaie';
         btn.disabled = false;
         setTimeout(() => {
