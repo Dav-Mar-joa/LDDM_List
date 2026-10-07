@@ -1,215 +1,223 @@
-html(lang="fr")
+doctype html
+html(lang="fr" data-theme="dark")
   head
     meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Tâches du jour
+    meta(name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover")
+    meta(name="theme-color" content="#0b1020")
+    meta(name="mobile-web-app-capable" content="yes")
+    meta(name="apple-mobile-web-app-capable" content="yes")
+    meta(name="apple-mobile-web-app-title" content="LDDM List")
     link(rel="manifest" href="/manifest.json")
-    style.
-      /* --- Global --- */
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-        background-color: #2c2c3e;
-        display: flex;
-        justify-content: center;
-        color: #fff;
-      }
-      .container {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        max-width: 1600px;
-        gap: 40px;
-      }
-      .form-container, .tasks-container, .purchase-container {
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-        background-color: #3a3a52;
-      }
-      .form-container { flex: 1; }
-      .tasks-container { flex: 1.5; }
-      .purchase-container { flex: 1; }
+    link(rel="icon" href="/assets/icons/icon192.png")
+    link(rel="apple-touch-icon" href="/assets/icons/icon192.png")
+    title LDDM List
+    script.
+      try {
+        var t = localStorage.getItem('lddm_theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    link(rel="stylesheet" href="/assets/css/app.css")
 
-      /* --- Titles --- */
-      .titre {
-        font-family: 'Fantasy', sans-serif;
-        font-size: 2.5rem;
-        color: #00ffff;
-        text-align: center;
-        margin-bottom: 20px;
-      }
+  body(data-tab="tasks")
 
-      /* --- Forms --- */
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      label {
-        font-weight: bold;
-      }
-      input, textarea, select {
-        width: 100%;
-        padding: 8px;
-        border-radius: 8px;
-        border: 2px solid #555;
-        background-color: #505070;
-        color: #fff;
-      }
-      textarea { resize: vertical; }
+    //- ── Icônes (sprite SVG) ──
+    svg(xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true")
+      symbol#i-plus(viewBox="0 0 24 24"): path(d="M5 12h14M12 5v14")
+      symbol#i-edit(viewBox="0 0 24 24")
+        path(d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z")
+        path(d="m15 5 4 4")
+      symbol#i-trash(viewBox="0 0 24 24")
+        path(d="M3 6h18")
+        path(d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6")
+        path(d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2")
+      symbol#i-check(viewBox="0 0 24 24"): path(d="M20 6 9 17l-5-5")
+      symbol#i-bell(viewBox="0 0 24 24")
+        path(d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9")
+        path(d="M10.3 21a1.94 1.94 0 0 0 3.4 0")
+      symbol#i-sun(viewBox="0 0 24 24")
+        circle(cx="12" cy="12" r="4")
+        path(d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41")
+      symbol#i-moon(viewBox="0 0 24 24"): path(d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z")
+      symbol#i-search(viewBox="0 0 24 24")
+        circle(cx="11" cy="11" r="8")
+        path(d="m21 21-4.3-4.3")
+      symbol#i-tasks(viewBox="0 0 24 24")
+        path(d="m9 11 3 3L22 4")
+        path(d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11")
+      symbol#i-cart(viewBox="0 0 24 24")
+        circle(cx="8" cy="21" r="1")
+        circle(cx="19" cy="21" r="1")
+        path(d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12")
+      symbol#i-clock(viewBox="0 0 24 24")
+        circle(cx="12" cy="12" r="10")
+        path(d="M12 6v6l4 2")
+      symbol#i-x(viewBox="0 0 24 24"): path(d="M18 6 6 18M6 6l12 12")
+      symbol#i-inbox(viewBox="0 0 24 24")
+        path(d="M22 12h-6l-2 3h-4l-2-3H2")
+        path(d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z")
 
-      button {
-        padding: 10px 20px;
-        border-radius: 10px;
-        border: 2px solid black;
-        cursor: pointer;
-        font-weight: bold;
-        margin-top: 10px;
-        box-shadow: 3px 3px 8px rgba(0,0,0,0.5);
-        transition: all 0.3s ease;
-      }
-      .button-submit-taches { background-color: #007bff; color: #fff; }
-      .button-submit-taches:hover { background-color: #0056b3; }
+    //- ── Barre du haut ──
+    header.topbar
+      .brand
+        .logo: svg.icon: use(href="#i-tasks")
+        .brand-text
+          h1 LDDM List
+          p#today.muted
+      .topbar-actions
+        button#btn-notif.btn.soft(type="button" hidden)
+          svg.icon: use(href="#i-bell")
+          span.hide-sm Notifications
+        button#btn-theme.icon-btn(type="button" aria-label="Changer de thème" title="Changer de thème")
+          svg.icon.theme-dark: use(href="#i-sun")
+          svg.icon.theme-light: use(href="#i-moon")
+        button#btn-user.user-chip(type="button" title="Changer d'utilisateur")
+          span#user-avatar.avatar ?
+          span#user-name Qui es-tu ?
 
-      .button-submit, .button-modify { background-color: #00aaff; color: #fff; }
-      .button-submit:hover, .button-modify:hover { background-color: #0077aa; }
+    main.layout
 
-      .button-delete { background-color: #dc3545; color: #fff; }
-      .button-delete:hover { background-color: #a71d2a; }
+      //- ── Tâches ──
+      section#panel-tasks.panel(aria-labelledby="h-tasks")
+        .panel-head
+          div
+            h2#h-tasks Tâches
+            p#task-stats.muted
+          button#btn-add-task.btn.primary(type="button")
+            svg.icon: use(href="#i-plus")
+            span Nouvelle tâche
 
-      /* --- Bouton notifications --- */
-      #btn-notif {
-        display: none;
-        width: 100%;
-        background-color: #00aaff;
-        color: #fff;
-        overflow: hidden;
-        max-height: 60px;
-      }
-      #btn-notif:hover { background-color: #0077aa; }
-
-      /* --- Tasks --- */
-      .task, .purchase-item {
-        border-radius: 15px;
-        padding: 10px;
-        margin-bottom: 15px;
-        box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
-        background-color: #4a4a70;
-      }
-      .nomQui, .nomTache, .taskDescritption, h3.course {
-        margin: 5px 0;
-      }
-      .nomQui {
-        background-color: #c6c3c3;
-        color: #5833eb;
-        text-align: center;
-        padding: 5px 10px;
-        font-weight: 900;
-        border-radius: 10px;
-        border: 2px solid black;
-      }
-      .faible { background-color: green; }
-      .haute { background-color: red; }
-      .moyenne { background-color: orange; }
-
-      #qui { margin-top: 10px; }
-
-      .nomTache { background-color: #6b7fd1; text-align: center; padding: 5px; border-radius: 10px; }
-      .taskDescritption { background-color: #72dbefff; padding: 5px 10px; border-radius: 10px; font-weight: bold; }
-      .date { background-color: #333; color: aqua; padding: 10px; border-radius: 10px; text-align:center; font-size:1.2rem; }
-
-      /* --- Responsive --- */
-      @media(max-width: 768px) {
-        .container { flex-direction: column; }
-        .form-container, .tasks-container, .purchase-container { width: 90%; }
-        button { width: 100%; }
-      }
-
-      .date-time {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-bottom: 10px;
-      }
-      .date-time p { margin: 0; }
-
-  body
-    .container
-
-      //- ── FORMULAIRE TÂCHES ──
-      .form-container
-        p.titre Tasks To Do 2
-        .formDate
-          .date-time
-            p#dateJour
-            p#heure
-
-        form(action="/" method="post")
-          label(for="task") Tâches :
-          input(type="text" id="task" name="task" required)
-
-          label(for="date") Date et Heure :
-          input(type="datetime-local" id="date" name="date")
-
-          label(for="description") Descriptions :
-          textarea(id="description" name="description" rows="1")
-
-          .priority-qui-container
-            label(for="priority" class="priority")
-            select(name="priority" id="priority")
-              option(value="") Priorité
+        .toolbar
+          label.search
+            svg.icon: use(href="#i-search")
+            input#search(type="search" placeholder="Rechercher une tâche…" autocomplete="off" aria-label="Rechercher")
+          .chips#filter-status(role="group" aria-label="Statut")
+            button.chip(type="button" data-value="todo" aria-pressed="true") À faire
+            button.chip(type="button" data-value="done" aria-pressed="false") Terminées
+            button.chip(type="button" data-value="all" aria-pressed="false") Toutes
+          .chips#filter-who(role="group" aria-label="Personne")
+            button.chip(type="button" data-value="all" aria-pressed="true") Tous
+            button.chip(type="button" data-value="Lola" aria-pressed="false") Lola
+            button.chip(type="button" data-value="David" aria-pressed="false") David
+            button.chip(type="button" data-value="Les 2" aria-pressed="false") Les 2
+          .selects
+            select#filter-priority(aria-label="Priorité")
+              option(value="all") Toutes priorités
               option(value="haute") Haute
               option(value="moyenne") Moyenne
               option(value="faible") Faible
+            select#sort(aria-label="Tri")
+              option(value="asc") Date ↑ (proches d'abord)
+              option(value="desc") Date ↓ (récentes d'abord)
 
-            label(for="qui" class="qui")
-            select(name="qui" id="qui")
-              option(value="") Qui ?
-              option(value="Lola") Lola
-              option(value="David") David
-              option(value="Les 2") Les 2
+        #task-list.list
 
-          button(type="submit" class="button-submit-taches") Ajouter
+      //- ── Courses ──
+      section#panel-courses.panel(aria-labelledby="h-courses")
+        .panel-head
+          div
+            h2#h-courses Courses
+            p#course-stats.muted
+        form#course-form.inline-form(autocomplete="off")
+          input#course-input(type="text" placeholder="Ajouter un article…" maxlength="200" required aria-label="Nouvel article")
+          button.btn.primary(type="submit" aria-label="Ajouter")
+            svg.icon: use(href="#i-plus")
+            span.hide-sm Ajouter
+        #course-list.list
+        button#btn-clear-checked.btn.ghost.full(type="button" hidden)
+          svg.icon: use(href="#i-trash")
+          span Retirer les articles cochés
 
-        button#btn-notif(type="button" onclick="activerNotifications()") 🔔 Activer les notifications
+    //- ── Navigation mobile / tablette portrait ──
+    nav.bottom-nav(aria-label="Sections")
+      button#nav-tasks(type="button" data-tab="tasks" aria-current="page")
+        svg.icon: use(href="#i-tasks")
+        span Tâches
+        em#nav-tasks-count(hidden)
+      button#nav-courses(type="button" data-tab="courses")
+        svg.icon: use(href="#i-cart")
+        span Courses
+        em#nav-courses-count(hidden)
 
-      //- ── LISTE DES TÂCHES ──
-      .tasks-container
-        each task in tasks
-          .task(data-task-id=task._id class=task.priority)
-            .task-header
-              p.date #{new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric'}).format(new Date(task.date))}
-                p.date #{new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit'}).format(new Date(task.date))}
-              h3.nomQui #{task.qui}
-              h3.nomTache #{task.name}
-              p.taskDescritption Commentaire : #{task.description}
-              button(type="button" onclick="deleteTask(this)" class="button-delete") Supprimer
+    button#fab.fab(type="button" aria-label="Nouvelle tâche")
+      svg.icon: use(href="#i-plus")
 
-      //- ── COURSES ──
-      .purchase-container
-        p.titre Courses
-        form(action="/Courses" method="post")
-          label(for="buy")
-          input(type="text" id="buy" name="buy" required)
-          button(type="submit" class="button-submit") Ajouter
+    //- ── Fenêtre : ajouter / modifier une tâche ──
+    dialog#task-dialog
+      form#task-form.dialog-card(autocomplete="off" novalidate)
+        .dialog-head
+          h3#task-dialog-title Nouvelle tâche
+          button.icon-btn(type="button" data-close aria-label="Fermer"): svg.icon: use(href="#i-x")
+        .field
+          label(for="f-name") Titre
+          input#f-name(type="text" maxlength="200" required placeholder="Ex. : Rendez-vous dentiste")
+        .field
+          label(for="f-date") Date et heure
+          input#f-date(type="datetime-local")
+        .field
+          label(for="f-desc") Description
+          textarea#f-desc(rows="3" maxlength="2000" placeholder="Détails, commentaire…")
+        .field
+          span.label Priorité
+          .segmented#f-priority(role="radiogroup")
+            label.seg
+              input(type="radio" name="priority" value="" checked)
+              span Aucune
+            label.seg.seg-haute
+              input(type="radio" name="priority" value="haute")
+              span Haute
+            label.seg.seg-moyenne
+              input(type="radio" name="priority" value="moyenne")
+              span Moyenne
+            label.seg.seg-faible
+              input(type="radio" name="priority" value="faible")
+              span Faible
+        .field
+          span.label Pour qui ?
+          .segmented#f-qui(role="radiogroup")
+            label.seg
+              input(type="radio" name="qui" value="" checked)
+              span Personne
+            label.seg
+              input(type="radio" name="qui" value="Lola")
+              span Lola
+            label.seg
+              input(type="radio" name="qui" value="David")
+              span David
+            label.seg
+              input(type="radio" name="qui" value="Les 2")
+              span Les 2
+        p#form-error.form-error(hidden)
+        .dialog-actions
+          button.btn.ghost(type="button" data-close) Annuler
+          button#task-submit.btn.primary(type="submit") Enregistrer
 
-        each course in courses
-          .purchase-item(data-course-id=course._id)
-            h3.course #{course.name}
-            button(type="button" onclick="modifyCourse(this)" class="button-modify") Modifier
-            button(type="button" onclick="deleteCourse(this)" class="button-delete") Supprimer
+    //- ── Fenêtre : confirmation ──
+    dialog#confirm-dialog.small
+      .dialog-card
+        h3#confirm-title Confirmer
+        p#confirm-text.muted
+        .dialog-actions
+          button.btn.ghost(type="button" data-close) Annuler
+          button#confirm-ok.btn.danger(type="button") Supprimer
 
-    script(src="/js/script.js")
-    script(src="/js/push-init.js")
-    script.
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-        });
-      }
+    //- ── Fenêtre : choix de l'utilisateur ──
+    dialog#user-dialog.small
+      .dialog-card
+        h3 Qui utilise cet appareil ?
+        p.muted Ton prénom sert à t'éviter les notifications de tes propres actions.
+        .user-choices
+          button.user-choice(type="button" data-user="Lola")
+            span.avatar.a1 L
+            | Lola
+          button.user-choice(type="button" data-user="David")
+            span.avatar.a2 D
+            | David
+          button.user-choice(type="button" data-user="Les 2")
+            span.avatar.a3 2
+            | Les 2
+
+    #toasts(aria-live="polite")
+
+    script#initial-data(type="application/json")!= initialData
+    script(src="/js/app.js")
