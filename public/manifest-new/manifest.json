@@ -1,0 +1,17 @@
+{
+  "id": "/",
+  "name": "LDDM List",
+  "short_name": "LDDM List",
+  "description": "Tâches et courses partagées, synchronisées sur tous vos appareils.",
+  "lang": "fr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "icons": [
+    { "src": "/assets/icons/icon192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "/assets/icons/icon512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" }
+  ]
+}
